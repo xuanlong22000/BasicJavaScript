@@ -1,4 +1,4 @@
-//refer
+//REFER
 function deepEqual(a, b) {
     if ((typeof a == "object" && a != null) && (typeof b == "object" && typeof b != null)) {
         var count = [0, 0]

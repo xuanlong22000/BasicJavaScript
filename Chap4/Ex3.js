@@ -1,4 +1,4 @@
-//refer
+//REFER
 function arrayToList(array) {
     let result = {};
     if (Array.isArray(array)) {
