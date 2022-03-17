@@ -1,3 +1,4 @@
+//Ex2
 const { buildGraph } = require('graph')
 const roads = [
     "Alice's House-Bob's House", "Alice's House-Cabin",
