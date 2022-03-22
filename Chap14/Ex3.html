@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="hat" style="background-color: blue; width: 40px;height: 40px; position: absolute;"></div>
+    <div class="cat" style="background-color: red; width: 40px; height: 40px; position: absolute;"></div>
+
+    <script>
+        let hat = document.querySelector('.hat')
+        let cat = document.querySelector('.cat')
+        let angle = 2 * Math.PI
+        //angle=0
+
+        function animate(time, lastTime) {
+            if (lastTime != null) {
+                angle += (time - lastTime) * 0.001
+            }
+
+            //lastTime=time
+
+            cat.style.top = (Math.sin(angle) * 40 + 40) + 'px'
+            cat.style.left = (Math.cos(angle) * 200 + 230) + 'px'
+
+            hat.style.top = (Math.sin(angle) * 40 + 20) + 'px'
+            hat.style.left = (Math.cos(angle) * 200 + 200) + 'px'
+            requestAnimationFrame(newTime => animate(newTime, time))
+        }
+        requestAnimationFrame(animate)
+    </script>
+</body>
+
+</html>

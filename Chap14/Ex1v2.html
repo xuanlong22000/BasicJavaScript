@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <table>
+        <tr>
+            <th>name</th>
+            <th>height</th>
+            <th>place</th>
+        </tr>
+        <tr>
+            <td>Kilimanjaro</td>
+            <td>5895</td>
+            <td>Tanzania</td>
+        </tr>
+    </table>
+    <script>
+        let mountains = [{
+                name: 'Duke',
+                height: '333',
+                place: 'Gia Lai'
+            },
+            {
+                name: 'Huy',
+                height: '555',
+                place: 'Kham Duc'
+            },
+            {
+                name: 'Long',
+                height: '555',
+                place: 'Da Nang'
+            }
+        ]
+
+        function elt(type, ...children) {
+            let node = document.createElement(type)
+            for (let child of children) {
+                if (typeof child != 'string') node.appendChild(child)
+                else node.appendChild(document.createTextNode(child))
+            }
+            return node
+        }
+
+        for (let i in mountains) {
+            document.querySelector('table').appendChild(
+                elt('tr',
+                    elt('td', `${mountains[i].name}`),
+                    elt('td', `${mountains[i].height}`),
+                    elt('td', `${mountains[i].place}`)
+                )
+
+            )
+        }
+
+        //Ex2
+        console.log(document.getElementsByTagName('tr').length)
+    </script>
+</body>
+
+</html>
