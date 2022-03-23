@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            height: 200px;
+            background: beige;
+        }
+
+        .dot {
+            height: 8px;
+            width: 8px;
+            border-radius: 4px;
+            /* rounds corners */
+            background: red;
+            position: absolute;
+        }
+    </style>
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- dot -->
+    <script>
+        window.addEventListener("mousemove", event => {
+            let dot = document.createElement("div");
+            dot.className = "dot";
+            dot.style.left = (event.pageX - 3) + "px";
+            dot.style.top = (event.pageY - 3) + "px";
+            document.body.appendChild(dot);
+        });
+    </script>
+</body>
+
+</html>

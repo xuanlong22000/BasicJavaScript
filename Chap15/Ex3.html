@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style type="text/css">
+        tab-panel>button.selected {
+            background-color: red;
+            color: #FFFF
+        }
+
+        tab-panel>div[data-tabname].hidden {
+            display: none;
+        }
+    </style>
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- PREFER -->
+    <tab-panel>
+        <div data-tabname="one">Tab one</div>
+        <div data-tabname="two">Tab two</div>
+        <div data-tabname="three">Tab three</div>
+    </tab-panel>
+
+    <script>
+        let activeTab;
+        let currentBody;
+
+        function switchTab(event) {
+
+            activeTab.classList.remove("selected");
+            activeTab = event.target;
+            activeTab.classList.add("selected");
+
+            let tabContent = document.querySelectorAll("div");
+            currentBody.classList.toggle("hidden");
+
+
+            switch (activeTab.textContent) {
+                case "one":
+                    currentBody = tabContent[0];
+                    break;
+                case "two":
+                    currentBody = tabContent[1];
+                    break;
+                case "three":
+                    currentBody = tabContent[2];
+                    break;
+            }
+
+
+            currentBody.classList.toggle("hidden");
+        }
+
+        function asTabs(node) {
+            let tabLength = node.children.length;
+            console.log(tabLength)
+
+            for (let i = 0; i < tabLength; i++) {
+                let tabButton = document.createElement("button");
+
+                tabButton.textContent = document.querySelectorAll("div")[i].getAttribute("data-tabname");
+
+                node.querySelectorAll("div")[i].classList.add("hidden");
+                tabButton.addEventListener("click", switchTab);
+                node.insertBefore(tabButton, document.querySelector("div"));
+            }
+
+
+            activeTab = document.querySelector("button");
+            activeTab.classList.add("selected");
+
+            currentBody = document.querySelector("div");
+            currentBody.classList.toggle("hidden");
+        }
+
+        asTabs(document.querySelector("tab-panel"));
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>🎈</h1>
+    <script>
+        let ball = document.querySelector('h1')
+        let originBall = 30
+        ball.style.fontSize = originBall + 'px'
+        let maxBall = 100
+
+        function grow() {
+            originBall += originBall * 0.1
+            if (originBall > maxBall) {
+                ball.textContent = '💥'
+                window.removeEventListener('keydown', changeBall)
+            } else {
+                ball.style.fontSize = originBall + 'px'
+            }
+        }
+
+        function shrink() {
+            originBall = originBall - originBall * 0.1
+            ball.style.fontSize = originBall + 'px'
+        }
+
+        function changeBall(event) {
+            if (event.key === 'ArrowUp') {
+                grow()
+                event.preventDefault()
+            } else if (event.key === 'ArrowDown') {
+                shrink()
+                event.preventDefault()
+            }
+
+        }
+        window.addEventListener('keydown', changeBall)
+    </script>
+</body>
+
+</html>
