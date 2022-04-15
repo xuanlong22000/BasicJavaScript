@@ -25,4 +25,4 @@ function event3() {
     })
 }
 
-Promise.all([event1(), event2(), event3()]).catch(console.log)
+Promise.allSettled([event1(), event2(), event3()]).then((message) => { console.log(message) })

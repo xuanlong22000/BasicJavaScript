@@ -1,16 +1,16 @@
 const controller = async (req, res) => {
-    await doA()
+    doA()
 
     await doB()
+    res.status(200).end()
 }
 
 const doA = () => {
-    return new Promise(resolve => {
-        setTimeout(() => {
-            resolve()
-            console.log('Display doA')
-        }, 10000)
+    return new Promise((resolve, reject) => {
+        resolve()
+        console.log('Display doA')
     })
+
 }
 const doB = () => {
     return new Promise(resolve => {

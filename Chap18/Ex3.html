@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- PREFER -->
+
+    <div id="grid"></div>
+    <button id="next">Next generation</button>
+    <button id="autorun">Autorun Simulation</button>
+    <button id="stop" style="display: none;">Stop Simulation</button>
+
+    <script defer>
+        const gridWidth = 20;
+        const gridHeight = 15;
+        const minNeighborsAlive = 2;
+        const maxNeighborsAlive = 3;
+
+        let grid = document.querySelector("#grid");
+        let next = document.querySelector("#next");
+        let autorun = document.querySelector("#autorun");
+        let stop = document.querySelector("#stop");
+
+        function generateCell(input, row, col) {
+            return Object.assign(Object.create(null), {
+                element: input,
+                row: row + 1,
+                col: col + 1,
+                alive: input.checked
+            });
+        }
+
+        function cellStatusChange(event) {
+            stopSimulation();
+
+            let row = Number(event.target.getAttribute("data-row"));
+            let col = Number(event.target.getAttribute("data-col"));
+            let index = row * gridWidth + col;
+
+            cells[index].alive = event.target.checked;
+        }
+
+        function createCellGrid(width, height) {
+            let cells = [];
+
+            for (let row = 0; row < height; row++) {
+                for (let col = 0; col < width; col++) {
+                    let input = document.createElement("input");
+
+                    input.type = "checkbox";
+                    input.setAttribute("data-row", row);
+                    input.setAttribute("data-col", col);
+
+                    if (Math.random() > 0.5) {
+                        input.setAttribute("checked", input);
+                    }
+
+                    input.addEventListener("change", cellStatusChange);
+
+                    grid.appendChild(input);
+                    cells.push(generateCell(input, row, col));
+                }
+                grid.appendChild(document.createElement("br"));
+            }
+            return cells;
+        }
+
+        let cells = createCellGrid(gridWidth, gridHeight);
+
+        function getNeighbors(centralCell) {
+            const minAdjRow = centralCell.row - 1;
+            const maxAdjRow = centralCell.row + 1;
+            const minAdjCol = centralCell.col - 1;
+            const maxAdjCol = centralCell.col + 1;
+
+            return cells.filter(cell => {
+                return (cell.row >= minAdjRow) && (cell.row <= maxAdjRow) &&
+                    (cell.col >= minAdjCol) && (cell.col <= maxAdjCol) &&
+                    !((cell.row == centralCell.row) && (cell.col == centralCell.col));
+            });
+        }
+
+        function getAliveNeighborsCount(neighbors) {
+            return neighbors.reduce((aliveCount, current) => {
+                if (current.alive)
+                    aliveCount++;
+                return aliveCount;
+            }, 0);
+        }
+
+        function IsCellAliveInNextGen(cell) {
+            let aliveNeighborsCount = getAliveNeighborsCount(getNeighbors(cell));
+            let survives = (aliveNeighborsCount >= minNeighborsAlive) && (aliveNeighborsCount <= maxNeighborsAlive);
+            let reborn = aliveNeighborsCount == maxNeighborsAlive;
+
+            if (cell.alive)
+                return survives;
+            else
+                return reborn;
+        }
+
+        function generateNextGen(cells) {
+            let nextCells = [];
+
+            for (let cell of cells) {
+                let nextCell = Object.create(null);
+                nextCell.element = cell.element;
+                nextCell.row = cell.row;
+                nextCell.col = cell.col;
+                nextCell.alive = IsCellAliveInNextGen(cell);
+                nextCells.push(nextCell);
+            }
+
+            return nextCells;
+        }
+
+        function updateGrid() {
+            let nextCells = generateNextGen(cells);
+
+            nextCells.forEach(cell => {
+                cell.element.checked = cell.alive;
+            });
+            cells = nextCells;
+        }
+
+        next.addEventListener("click", updateGrid);
+
+        let simulate;
+
+        function autorunSimulation() {
+            simulate = setInterval(() => {
+                updateGrid();
+            }, 500);
+            autorun.disabled = true;
+            next.disabled = true;
+            stop.style.display = "inline-block";
+        }
+
+        function stopSimulation() {
+            clearInterval(simulate);
+            autorun.disabled = false;
+            next.disabled = false;
+            stop.style.display = "none";
+        }
+
+        autorun.addEventListener("click", autorunSimulation);
+
+        stop.addEventListener("click", stopSimulation);
+    </script>
+</body>
+
+</html>
